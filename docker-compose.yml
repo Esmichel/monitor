@@ -1,0 +1,96 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "1883:1883"   # MQTT Port
+      - "15672:15672" # RabbitMQ Web UI
+      - "5672:5672"   # AMQP Port (Internal RabbitMQ Messaging)
+    networks:
+      - monitor-net
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq  # Persistent storage
+      - ./MQTT_Brocker/config:/etc/rabbitmq           # Map config folder correctly
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0 # You can use the latest stable version of Elasticsearch
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=changeme # You can change this password to something more secure
+      - xpack.security.enabled=false # Disables security for development purposes (enable security in production)
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    ports:
+      - "9200:9200"  # Elasticsearch HTTP Port
+      - "9300:9300"  # Elasticsearch transport (internal) port
+    networks:
+      - monitor-net
+    #volumes:
+    #  - elasticsearch_data:/usr/share/elasticsearch/data  # Persistent storage
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: monitor-backend
+    restart: always
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - monitor-net
+
+  grafana:
+    image: grafana/grafana:9.5.0  # Use the appropriate Grafana version
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"  # Grafana Web UI
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin # You can change the default password here
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - monitor-net
+    volumes:
+      - ./Grafana/Datasources:/etc/grafana/provisioning/datasources  # Mount provisioning files
+      - ./Grafana/Dashboards/provision:/etc/grafana/provisioning/dashboards  # Mount dashboards
+      - ./Grafana/Dashboards/board:/var/lib/grafana/dashboards
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  monitor-net:
+
+volumes:
+  rabbitmq_data:
+    driver: local
+#  elasticsearch_data:
+#    driver: local

@@ -1,0 +1,22 @@
+{
+  "sender_id": "00:5F:67:0D:A6:4E-1589176509",
+  "packet_id": "1589176179",
+  "timestamp": 1529586,
+  "frame_type": "data",
+  "frame_subtype": "data",
+  "src_mac": "00:5F:67:0D:A6:4E",
+  "dst_mac": "FF:FF:FF:FF:FF:FF",
+  "signal_strength": -46,
+  "channel": 1,
+  "protocol": "Unknown",
+  "src_port": 0,
+  "dst_port": 0,
+  "is_broadcast": true,
+  "ssid_length": 0,
+  "ssid": "null",
+  "packet_hash": 1818484436,
+  "payload": {
+    "length": 263,
+    "payload_data": "gAAAAP///////wBfZw2mTgBfZw2mTpDGqYHYSQMAAABkAAEMAAxUUC1MaW5rX0E2NEUBCIKEi5YSJEhsAwEBMgQMGDBgMwggAQIDBAUGBzMIIQUGBwgJCgsFBAABAADdMQBQ8gQQSgABEBBEAAECEEcAEDiDMJIwkhiDnHcAX2cNpsQQPAABARBJAAYANyoAASAqAQQtGm4QF///AAABAAAAAAAAAAAAAAAAAAAAAAAAPRYBBQQAAAAAAAAAAAAAAAAAAAAAAAAASg4UAAoALAHIABQABQAZAN0YAFDyAgEBgAADpAAAJ6QAAEJDXgBiMi8ACwUBAAASet0HAAxDAAAAAAAgAAA="
+  }
+}
