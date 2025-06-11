@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login - Proyecto ESP32</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+</head>
+
+<body>
+    <header class="site-header">
+        <h1>Acceso al Panel ESP32</h1>
+    </header>
+
+    <main class="container">
+        <section class="login-section">
+            <form th:action="@{/login}" method="post" class="login-form">
+                <h2>Iniciar Sesión</h2>
+                
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Entrar</button>
+                </div>
+
+                <div th:if="${param.error}" class="error">
+                    Usuario o contraseña incorrectos.
+                </div>
+
+                <div th:if="${param.logout}" class="message">
+                    Has cerrado sesión correctamente.
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Proyecto ESP32</p>
+    </footer>
+</body>
+
+</html>

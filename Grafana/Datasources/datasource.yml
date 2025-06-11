@@ -16,3 +16,48 @@ datasources:
     readonly: false
     secureJsonData:
       password: ""
+  - name: Elasticsearch-1
+    type: elasticsearch
+    access: proxy
+    url: http://elasticsearch:9200
+    uid: c21d9106-a9b3-4213-b7e6-c3c2f5ad1abe # Unique ID
+    database: arp_mappings
+    jsonData:
+      includeFrozen: false
+      timeField: timestamp
+      maxConcurrentShardRequests: 5
+      #index: wif_packets  # Specify your index pattern here
+      #interval: "5s"
+    readonly: false
+    secureJsonData:
+      password: ""
+  - name: Elasticsearch-2
+    type: elasticsearch
+    access: proxy
+    url: http://elasticsearch:9200
+    uid: c21d9106-a9b3-4213-b7e6-c3c2f5ad1abf # Unique ID
+    database: alert_packets
+    jsonData:
+      includeFrozen: false
+      timeField: timestamp
+      maxConcurrentShardRequests: 5
+      #index: wif_packets  # Specify your index pattern here
+      #interval: "5s"
+    readonly: false
+    secureJsonData:
+      password: ""
+  - name: TelemetryData
+    type: elasticsearch
+    access: proxy
+    url: http://elasticsearch:9200
+    uid: c21d9106-a9b3-4213-b7e6-c3c2f5ad1abg # Unique ID
+    database: esp32_telemetry
+    jsonData:
+      includeFrozen: false
+      timeField: timestamp
+      maxConcurrentShardRequests: 5
+      #index: wif_packets  # Specify your index pattern here
+      #interval: "5s"
+    readonly: false
+    secureJsonData:
+      password: ""

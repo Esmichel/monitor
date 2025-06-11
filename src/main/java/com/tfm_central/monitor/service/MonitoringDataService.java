@@ -1,7 +1,5 @@
 package com.tfm_central.monitor.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.tfm_central.monitor.model.MonitoringData;

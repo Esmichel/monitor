@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-@Document(indexName = "wifi_packets")
 @JsonIgnoreProperties(ignoreUnknown = true) // Ignore unexpected JSON fields
+@Document(indexName = "wifi_packets")
 public class MonitoringData {
 
     @Id
@@ -19,14 +19,14 @@ public class MonitoringData {
     private Long packetHash;
 
     @JsonProperty("sender_id")
-    @Field(type = FieldType.Text, fielddata = true) // Allows aggregation & sorting
+    @Field(type = FieldType.Text, fielddata = true)
     private String senderId;
 
     @JsonProperty("packet_id")
     private String packetId;
 
     @JsonProperty("timestamp")
-    @Field(type = FieldType.Date, format = {}, pattern = "epoch_millis||strict_date_optional_time_nanos") 
+    @Field(type = FieldType.Date, format = {}, pattern = "epoch_millis||strict_date_optional_time_nanos")
     private Date timestamp;
 
     @JsonProperty("frame_type")
@@ -50,12 +50,16 @@ public class MonitoringData {
     private int signalStrength;
 
     @JsonProperty("channel")
-    @Field(type = FieldType.Text, fielddata = true)
+    @Field(type = FieldType.Integer)
     private int channel;
 
-    @JsonProperty("protocol")
+    @JsonProperty("layer3_protocol")
     @Field(type = FieldType.Keyword)
-    private String protocol;
+    private String layer3Protocol;
+
+    @JsonProperty("layer2_protocol")
+    @Field(type = FieldType.Keyword)
+    private String layer2Protocol;
 
     @JsonProperty("src_port")
     @Field(type = FieldType.Integer)
@@ -64,6 +68,22 @@ public class MonitoringData {
     @JsonProperty("dst_port")
     @Field(type = FieldType.Integer)
     private int dstPort;
+
+    @JsonProperty("src_addr")
+    @Field(type = FieldType.Ip)
+    private String srcAddr;
+
+    @JsonProperty("dst_addr")
+    @Field(type = FieldType.Ip)
+    private String dstAddr;
+
+    @JsonProperty("ttl")
+    @Field(type = FieldType.Integer)
+    private int ttl;
+
+    @JsonProperty("flags_description")
+    @Field(type = FieldType.Keyword)
+    private String flagsDescription;
 
     @JsonProperty("is_broadcast")
     @Field(type = FieldType.Boolean)
@@ -74,7 +94,7 @@ public class MonitoringData {
     private short ssidLength;
 
     @JsonProperty("ssid")
-    @Field(type = FieldType.Text, fielddata = true) // Allows aggregation & sorting
+    @Field(type = FieldType.Text, fielddata = true)
     private String ssid;
 
     @JsonProperty("payload")
@@ -88,7 +108,7 @@ public class MonitoringData {
         private int length;
 
         @JsonProperty("payload_data")
-        @Field(type = FieldType.Keyword) // Use Text if full-text search is needed
+        @Field(type = FieldType.Keyword)
         private String payloadData;
     }
 }

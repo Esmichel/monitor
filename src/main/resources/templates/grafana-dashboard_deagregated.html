@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard ESP32</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe 
+        th:src="@{'http://localhost:3000/d/e08fcf30-1bf5-49fd-ac53-c6ed333817eb/dasboard-desglosado?orgId=1&refresh=5s&theme=dark'}"
+        allowfullscreen>
+    </iframe>
+</body>
+</html>

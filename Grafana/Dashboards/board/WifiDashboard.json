@@ -18,12 +18,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
   "links": [],
   "liveNow": true,
   "panels": [
     {
-      "datasource": "Elasticsearch",
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -34,26 +36,16 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 80,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
             "lineWidth": 1,
-            "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -72,30 +64,120 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "none"
+          }
         },
         "overrides": []
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 7,
         "x": 0,
         "y": 0
       },
-      "id": 1,
+      "id": 14,
       "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
         "legend": {
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
         "tooltip": {
           "mode": "single",
           "sort": "none"
-        }
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "frameSubtype",
+              "id": "2",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Top frame_subtype",
+      "type": "barchart"
+    },
+    {
+      "datasource": "Elasticsearch",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1000
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 7,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showValue": "always",
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.0",
       "targets": [
         {
           "bucketAggs": [
@@ -103,7 +185,7 @@
               "field": "timestamp",
               "id": "1",
               "settings": {
-                "interval": "auto"
+                "interval": "5m"
               },
               "type": "date_histogram"
             }
@@ -114,12 +196,12 @@
               "type": "count"
             }
           ],
-          "query": "*",
+          "query": "ssid:($ssid) AND channel:($channel) AND srcMac:($srcMac) AND frameType:($frameType)",
           "refId": "A"
         }
       ],
-      "title": "Packets Over Time",
-      "type": "timeseries"
+      "title": "Total Packets",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -138,21 +220,21 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 1,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -171,7 +253,7 @@
               },
               {
                 "color": "red",
-                "value": 80
+                "value": -70
               }
             ]
           },
@@ -181,11 +263,11 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
-        "x": 12,
+        "w": 11,
+        "x": 13,
         "y": 0
       },
-      "id": 2,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -194,8 +276,8 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "all",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -210,10 +292,6 @@
               "type": "date_histogram"
             }
           ],
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
-          },
           "metrics": [
             {
               "field": "signalStrength",
@@ -221,13 +299,422 @@
               "type": "avg"
             }
           ],
-          "query": "*",
+          "query": "ssid:($ssid) AND channel:($channel) AND srcMac:($srcMac) AND frameType:($frameType)",
           "refId": "B",
           "timeField": "timestamp"
         }
       ],
-      "title": "Average Signal Strength Over Time",
+      "title": "📶 Average Signal Strength Over Time",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": -60
+              },
+              {
+                "color": "green",
+                "value": -50
+              }
+            ]
+          },
+          "unit": "dBm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 7,
+        "y": 4
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "/^Average signalStrength$/",
+          "values": false
+        },
+        "showValue": "always",
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.0",
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "timestamp",
+              "id": "1",
+              "settings": {
+                "interval": "5m"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "signalStrength",
+              "id": "1",
+              "type": "avg"
+            }
+          ],
+          "query": "ssid:($ssid) AND channel:($channel) AND srcMac:($srcMac) AND frameType:($frameType)",
+          "refId": "B",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Avg Signal Strength",
+      "type": "stat"
+    },
+    {
+      "columns": [
+        {
+          "text": "MAC Address",
+          "value": "1"
+        },
+        {
+          "text": "Last IP Seen",
+          "value": "3:entries.ip"
+        },
+        {
+          "text": "Timestamp",
+          "value": "2"
+        }
+      ],
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Max"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsIso"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 0,
+        "y": 9
+      },
+      "id": 8,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "showMetricsAtAllLevels": false,
+        "showPartialRows": false,
+        "showRowNumbers": false
+      },
+      "pluginVersion": "9.5.0",
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "mac",
+              "id": "1",
+              "settings": {
+                "order": {
+                  "2": "desc"
+                },
+                "size": 20
+              },
+              "type": "terms"
+            },
+            {
+              "field": "ip",
+              "id": "3",
+              "settings": {
+                "order": {
+                  "2": "desc"
+                },
+                "size": 1
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abe"
+          },
+          "format": "table",
+          "metrics": [
+            {
+              "field": "timestamp",
+              "id": "2",
+              "type": "max"
+            }
+          ],
+          "query": "type=\"active\" AND NOT ip:0.0.0.0",
+          "refId": "ARP",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Latest IP ⇄ MAC Associations Active",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 7,
+        "y": 9
+      },
+      "id": 21,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "ip"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "ip",
+              "id": "3",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "field": "mac",
+              "id": "4",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abe"
+          },
+          "metrics": [
+            {
+              "field": "timestamp",
+              "id": "1",
+              "type": "max"
+            }
+          ],
+          "query": "type=\"passive\" AND NOT ip:0.0.0.0",
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Latest IP ⇄ MAC Associations Passive",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 14,
+        "y": 9
+      },
+      "id": 15,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Count"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "dstAddr",
+              "id": "2",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "NOT dstAddr:0.0.0.0",
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Top dstAddr",
+      "type": "table"
     },
     {
       "datasource": {
@@ -240,49 +727,59 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
-          "mappings": []
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
         },
         "overrides": []
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
-        "x": 0,
+        "w": 5,
+        "x": 19,
         "y": 9
       },
-      "id": 3,
+      "id": 5,
       "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
           "fields": "",
-          "values": true
+          "reducer": [
+            "sum"
+          ],
+          "show": false
         },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        "showHeader": true
       },
+      "pluginVersion": "9.5.0",
       "targets": [
         {
           "bucketAggs": [
             {
-              "field": "frameType",
+              "field": "srcMac",
               "id": "1",
               "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_count",
                 "size": 10
               },
               "type": "terms"
@@ -298,133 +795,13 @@
               "type": "count"
             }
           ],
-          "query": "*",
-          "refId": "C",
-          "timeField": "timestamp"
-        }
-      ],
-      "title": "Frame Type Distribution",
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "elasticsearch",
-        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 9
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "bucketAggs": [
-            {
-              "field": "srcMac",
-              "id": "1",
-              "settings": {
-                "min_doc_count": "1",
-                "order": "desc",
-                "orderBy": "_term",
-                "size": "10"
-              },
-              "type": "terms"
-            },
-            {
-              "field": "timestamp",
-              "id": "2",
-              "settings": {
-                "interval": "1m",
-                "min_doc_count": "0",
-                "timeZone": "utc",
-                "trimEdges": "0"
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "datasource": {
-            "type": "elasticsearch",
-            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
-          },
-          "metrics": [
-            {
-              "id": "1",
-              "type": "count"
-            }
-          ],
-          "query": "*",
+          "query": "ssid:($ssid) AND channel:($channel) AND srcMac:($srcMac) AND frameType:($frameType) AND senderId:($senderId)",
           "refId": "D",
           "timeField": "timestamp"
         }
       ],
-      "title": "Top Source MAC Addresses",
-      "type": "timeseries"
+      "title": "🖧 Top 10 Source MAC Addresses",
+      "type": "table"
     },
     {
       "datasource": {
@@ -434,85 +811,60 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "fixedColor": "light-purple",
             "mode": "palette-classic"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
             }
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "mappings": []
         },
         "overrides": []
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 5,
         "x": 0,
         "y": 18
       },
-      "id": 5,
+      "id": 6,
       "options": {
+        "displayLabels": [
+          "name",
+          "percent"
+        ],
         "legend": {
-          "calcs": [],
           "displayMode": "list",
-          "placement": "bottom",
+          "placement": "right",
           "showLegend": true
         },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "all",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "bucketAggs": [
             {
-              "field": "channel",
+              "field": "frameType",
               "id": "1",
               "settings": {
-                "min_doc_count": "1",
                 "order": "desc",
-                "orderBy": "_term",
-                "size": "10"
+                "orderBy": "_count",
+                "size": 6
               },
               "type": "terms"
             },
@@ -538,13 +890,13 @@
               "type": "count"
             }
           ],
-          "query": "*",
-          "refId": "E",
+          "query": "ssid:($ssid) AND channel:($channel) AND srcMac:($srcMac) AND frameType:($frameType)",
+          "refId": "C",
           "timeField": "timestamp"
         }
       ],
-      "title": "Channel Distribution Over Time",
-      "type": "timeseries"
+      "title": "🧩 Frame Type Distribution",
+      "type": "piechart"
     },
     {
       "datasource": {
@@ -569,18 +921,18 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
-        "x": 12,
+        "w": 4,
+        "x": 5,
         "y": 18
       },
-      "id": 6,
+      "id": 16,
       "options": {
         "legend": {
           "displayMode": "list",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
-        "pieType": "donut",
+        "pieType": "pie",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -595,12 +947,16 @@
       },
       "targets": [
         {
+          "alias": "",
           "bucketAggs": [
             {
-              "field": "ssid",
-              "id": "1",
+              "field": "flagsDescription",
+              "id": "2",
               "settings": {
-                "size": 10
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
               },
               "type": "terms"
             }
@@ -615,63 +971,214 @@
               "type": "count"
             }
           ],
-          "query": "ssid:*",
-          "refId": "F",
+          "query": "",
+          "refId": "A",
           "timeField": "timestamp"
         }
       ],
-      "title": "SSID Distribution",
+      "title": "Flags TCP",
       "type": "piechart"
     },
     {
-      "columns": [
-        {
-          "text": "Timestamp",
-          "value": "timestamp"
-        },
-        {
-          "text": "Packet ID",
-          "value": "packet_id"
-        },
-        {
-          "text": "Frame Type",
-          "value": "frame_type"
-        },
-        {
-          "text": "Frame Subtype",
-          "value": "frame_subtype"
-        },
-        {
-          "text": "Source MAC",
-          "value": "src_mac"
-        },
-        {
-          "text": "Destination MAC",
-          "value": "dst_mac"
-        },
-        {
-          "text": "Signal Strength",
-          "value": "signal_strength"
-        },
-        {
-          "text": "Channel",
-          "value": "channel"
-        },
-        {
-          "text": "Protocol",
-          "value": "protocol"
-        },
-        {
-          "text": "SSID",
-          "value": "ssid"
-        }
-      ],
       "datasource": {
         "type": "elasticsearch",
         "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Count",
+                  "IPv4",
+                  "Unknown"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 9,
+        "y": 18
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Count$/",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "layer2Protocol",
+              "id": "2",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_count",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Top layer2 protocols",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 14,
+        "y": 18
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "layer3Protocol",
+              "id": "2",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "NOT layer3Protocol:\"Unknown\"",
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Top layer3 Protocols",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {
             "align": "auto",
             "cellOptions": {
@@ -684,7 +1191,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -697,11 +1205,11 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 24,
-        "x": 0,
-        "y": 27
+        "w": 6,
+        "x": 18,
+        "y": 18
       },
-      "id": 7,
+      "id": 20,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -720,12 +1228,26 @@
           "alias": "",
           "bucketAggs": [
             {
-              "field": "timestamp",
-              "id": "2",
+              "field": "ssid",
+              "id": "3",
               "settings": {
-                "interval": "1m"
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
               },
-              "type": "date_histogram"
+              "type": "terms"
+            },
+            {
+              "field": "srcMac",
+              "id": "4",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
             }
           ],
           "datasource": {
@@ -738,19 +1260,390 @@
               "type": "count"
             }
           ],
-          "query": "*",
-          "refId": "G",
-          "size": 50,
-          "sort": [
-            {
-              "field": "timestamp",
-              "order": "desc"
-            }
-          ],
+          "query": "",
+          "refId": "A",
           "timeField": "timestamp"
         }
       ],
-      "title": "Recent Packets",
+      "title": "Beacon count per AP",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "id": 7,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "channel",
+              "id": "1",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_count",
+                "size": 10
+              },
+              "type": "terms"
+            },
+            {
+              "field": "timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "ssid:($ssid) AND channel:($channel) AND srcMac:($srcMac) AND frameType:($frameType)",
+          "refId": "E",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "📡 Channel Distribution Over Time (Stacked)",
+      "type": "barchart"
+    },
+    {
+      "datasource": "Elasticsearch",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "all",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "timestamp",
+              "id": "1",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "ssid:($ssid) AND channel:($channel) AND srcMac:($srcMac) AND frameType:($frameType)",
+          "refId": "A"
+        }
+      ],
+      "title": "📈 Packets Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Max"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsIso"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "attackType"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 955
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "packetHash"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "signalStrength"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 130
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 19,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Max"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "packetHash",
+              "id": "4",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "field": "attackType",
+              "id": "5",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "field": "signalStrength",
+              "id": "6",
+              "settings": {
+                "min_doc_count": "1",
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abf"
+          },
+          "metrics": [
+            {
+              "field": "timestamp",
+              "id": "1",
+              "type": "max"
+            }
+          ],
+          "query": "",
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "title": "Latest alert messages",
       "type": "table"
     }
   ],
@@ -759,16 +1652,194 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "SSID",
+        "multi": true,
+        "name": "ssid",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"ssid\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+        },
+        "definition": "{\"find\": \"terms\", \"field\": \"senderId\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "SenderID",
+        "multi": true,
+        "name": "senderId",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"senderId\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Channel",
+        "multi": true,
+        "name": "channel",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"channel\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Source MAC",
+        "multi": true,
+        "name": "srcMac",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"srcMac\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "c21d9106-a9b3-4213-b7e6-c3c2f5ad1abd"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Frame Type",
+        "multi": true,
+        "name": "frameType",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"frameType\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "filters": [],
+        "hide": 0,
+        "name": "Filters",
+        "skipUrlSync": false,
+        "type": "adhoc"
+      }
+    ]
   },
   "time": {
-    "from": "2025-03-27T09:29:27.311Z",
-    "to": "2025-03-27T10:17:17.681Z"
+    "from": "now-15m",
+    "to": "now"
   },
-  "timepicker": {},
-  "timezone": "",
-  "title": "Wifi Dashboard",
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "3h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Improved WiFi Dashboard",
   "uid": "bc8330c8-9b0a-441e-960f-42d35d32db42",
-  "version": 11,
+  "version": 1,
   "weekStart": ""
 }

@@ -1,0 +1,87 @@
+/* Login page specific styles */
+
+/* ==== make footer stick to bottom ==== */
+
+/* 1) Ensure html/body fill the viewport */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+/* 2) Make body a column flex‐container */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 3) Let the main “.container” grow to fill space */
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* center the login box */
+  align-items: center;
+}
+
+/* 4) Footer will naturally sit at the bottom */
+.site-footer {
+  text-align: center;
+  padding: 1em 0;
+}
+
+.login-section {
+  max-width: 400px;
+  margin: 2em auto;
+  padding: 2em;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group button {
+  width: 100%;
+  padding: 0.75em;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.form-group button:hover {
+  background-color: #005fa3;
+}
+
+.error {
+  color: #c00;
+  text-align: center;
+  margin-top: 1em;
+}
+
+.message {
+  color: #007acc;
+  text-align: center;
+  margin-top: 1em;
+}

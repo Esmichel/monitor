@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Dispositivos ESP32</title>
+  <meta charset="UTF-8" />
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+
+<body>
+  <header class="site-header">
+    <h1>Panel ESP32</h1>
+    <nav>
+      <ul class="tabs">
+        <li id="tab-config" class="active">Configuración</li>
+        <li id="tab-whitelist">Whitelist Evil Twins</li>
+        <li id="tab-dashboard">Dashboard</li>
+        <li id="tab-dashboard-desglosado">Dashboard desglosado</li>
+        <li id="tab-esp-telemetria">ESP Telemetría</li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- CONFIGURATION SECTION -->
+    <section id="configSection" class="container">
+      <div class="device-selector">
+        <label for="deviceSelect">Selecciona un dispositivo:</label>
+        <select id="deviceSelect"></select>
+        <button id="fetchButton" onclick="fetchConfiguration()">Consultar configuración</button>
+      </div>
+      <div id="configContainer"></div>
+    </section>
+
+    <!-- DASHBOARD SECTION -->
+    <section id="dashboardSection" class="hidden">
+      <iframe
+        src="http://localhost:3000/d/bc8330c8-9b0a-441e-960f-42d35d32db42/improved-wifi-dashboard?orgId=1&from=now-15m&to=now&refresh=5s&kiosk">
+      </iframe>
+    </section>
+
+    <!-- NEW: DETAIL DASHBOARD SECTION -->
+    <section id="dashboardDetailSection" class="hidden">
+      <iframe
+        src="http://localhost:3000/d/e08fcf30-1bf5-49fd-ac53-c6ed333817eb/dasboard-desglosado?orgId=1&from=now-15m&to=now&refresh=5s&kiosk">
+      </iframe>
+    </section>
+
+    <section id="esp_telemetry" class="hidden">
+      <iframe
+        src="http://localhost:3000/d/d7367fd0-f92e-4528-80bd-a7137f50582a/telemetrydashboard?orgId=1&from=now-15m&to=now&refresh=5s&kiosk">
+      </iframe>
+    </section>
+
+    <section id="whitelistSection" class="hidden">
+      <div class="container">
+        <h2>Whitelist Evil Twins</h2>
+        <div id="whitelistContainer">
+          <!-- JS will populate the list here -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Proyecto ESP32</p>
+  </footer>
+
+  <script th:src="@{/js/config.js}"></script>
+</body>
+
+</html>
